@@ -1,8 +1,20 @@
-====================================================================
-DW: Missing your use of the topics in class and tentative timeline.
-====================================================================
-
 Speed dating simulator
-By Shaina Peters and Matthew So
+By Shaina Peters, Matthew So, and Brandon Huang
+
 This project is a speed dating simulator. It will include a number of participants. The participants will first choose a unique username. Then they  will connect with random people for two minute sessions and talk to them through a chat room, with both members of the chat responding to random "prompts". After they have talked to everyone, they will enter the username of their favorite person to chat with, and if two people name each other, they will be informed and will go into a new chat to give each other their contact information.
 When a new user logs on, they will meet a screen asking for a username. Assuming no one else in the group has taken that username yet, they will be logged on and wait until the group has enough people. Then they will put in a one on one chat room with another person for two minutes. There will be a prompt (such as "What do you want in someone") at the beginning of each conversation and each person will respond to it. After two minutes, the cycle will repeat until the user has talked with everyone. Then the user will be asked for the username of their favorite person to talk to. If they have a match, they will be put in a chat room with that person for up to 10 minutes, after which they will be logged off. Otherwise, they will be logged off immediately.
+
+Here is a list of conepts from class that we will be applying.
+Files – We will be using files to record previous conversations as well as user data so that it can be called upon later by other parts of the code. Additionally, prompt questions will be saved in the files so they can easily be edited, added or deleted on the server side.
+Processes – When communications are made, separate child processes must handle interaction between individual clients.
+Shared memory - Will be used when separate processes need to access the same files.
+Networking – We will use networking to allow clients on separate computers to access the server on a separate local network.
+The project will be broken down to 3 essential parts and we will all get one. Matt will handle file writing, storage and access. Shaina will handle creating network connections. Brandon will work on creating the child processes and Matt will help him implement the shared memory with the files. We will all work on the interface and any other areas of trouble… it is a team project after all.
+Each user will have a data structure. This struct will include a char array for their name, gender, and other important details, as well as information about retrieving their previous conversations and conversation partners. It will also include a spot for their partner of choice. When a new person joins, another struct will be created with their information, and their information will be updated as it is given.
+We will be using the three way handshake algorithm to establish the connection. 
+
+Timeline:
+1/6/17 - Submit proposal
+1/10/17 - Have a working user database 
+1/13/17 - Implement messaging between users
+1/17/17 - Implement additional features
