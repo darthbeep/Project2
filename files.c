@@ -25,8 +25,17 @@ int serverOpenMemory(char* fileName){
     exit(1);
   }
   
-  return 0;
+  return shmid;
 }
+
+int clientAccess(int shmid){
+  data = shmat(shmid, (void *)0, 0);
+  if (data == (char *)(-1)) {
+    perror("shmat");
+    exit(1);
+  }
+}
+    
 
 int serverStartUp(){
   serverOpenMemory("usernames.txt");
