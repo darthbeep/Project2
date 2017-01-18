@@ -28,9 +28,16 @@ int serverOpenMemory(char* fileName){
   return 0;
 }
 
+int serverStartUp(){
+  serverOpenMemory("usernames.txt");
+}
+  
+
 int serverDetach(char* data){
   if (shmdt(data) == -1) {
     perror("shmdt");
     exit(1);
   }
 }
+
+(<#>,","<username>,"\n")
