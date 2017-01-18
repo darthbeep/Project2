@@ -54,9 +54,15 @@ int serverDetach(char* data){
 int usernameAdd(char * username){
   FILE *fp;
   fp=fopen("username.txt", "a+");
-  fwrite(username, sizeof(username), 1,  fp);
+  char str[100];
+  strcpy(str, "1");
+  strcat(str, ",");
+  strcat(str, username);
+  strcat(str, "\n");
+  /* char * line = "1" + "," + username + "\n"; */
+  fwrite(str, sizeof(username) + 3, 1,  fp);
 }
 
 int main(){
-  char* x= "hi there";
+  char* x= "brandon";
   usernameAdd(x);}
