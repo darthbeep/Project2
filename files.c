@@ -27,3 +27,10 @@ int serverOpenMemory(char* fileName){
   
   return 0;
 }
+
+int serverDetach(char* data){
+  if (shmdt(data) == -1) {
+    perror("shmdt");
+    exit(1);
+  }
+}
