@@ -3,6 +3,7 @@
 #include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <strings.h>
 
 int serverOpenMemory(char* fileName){
   key_t key;
@@ -50,17 +51,33 @@ int serverDetach(char* data){
   }
 }
 
+int usernameCheck(char * username){
+  FILE *fp;
+  fp=fopen("username.txt", "r");
+  fseek(fp, 0, SEEK_END);
+  long fsize = ftell(fp);
+  rewind(fp);
+  char *str = malloc(fsize + 1);
+  fread(str, fsize, 1, fp);
+  fclose(fp);
+}
+
+  
 /* (<#>,","<username>,"\n") */
 int usernameAdd(char * username){
   FILE *fp;
   fp=fopen("username.txt", "a+");
-  char str[100];
-  strcpy(str, "1");
+  char * str;
+  strcpy(str, "100");
   strcat(str, ",");
   strcat(str, username);
   strcat(str, "\n");
+
   /* char * line = "1" + "," + username + "\n"; */
-  fwrite(str, sizeof(username) + 3, 1,  fp);
+
+  
+  fprintf(fp,"%s",str);
+  fclose(fp);
 }
 
 int main(){
