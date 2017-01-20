@@ -51,6 +51,35 @@ int serverDetach(char* data){
   }
 }
 
+
+
+int numberLines(char * username){
+  FILE *fp;
+  fp=fopen("username.txt", "r");
+  fseek(fp, 0, SEEK_END);
+  long fsize = ftell(fp);
+  rewind(fp);
+  char *str = malloc(fsize + 1);
+  fread(str, fsize, 1, fp);
+   printf("%s",str);
+  //str holds the file
+  int i = 0;
+   
+  printf("%s",str);
+  while (strsep(&str,"\n") != NULL){
+    printf("%s,%d",str,i);
+    i++;} 
+  /* str = strsep(&str, "\n"); */
+  /* printf("%s",str); */
+  
+  free(str);
+  fclose(fp);
+  return i;
+}
+
+
+	 
+
 int usernameCheck(char * username){
   FILE *fp;
   fp=fopen("username.txt", "r");
@@ -59,6 +88,14 @@ int usernameCheck(char * username){
   rewind(fp);
   char *str = malloc(fsize + 1);
   fread(str, fsize, 1, fp);
+   printf("%s",str);
+  //str holds the file
+  int i = 0;
+  str = strsep(&str, "\n");
+  printf("%s",str);
+  /* str = strsep(&str, "\n"); */
+  /* printf("%s",str); */
+  free(str);
   fclose(fp);
 }
 
@@ -78,8 +115,16 @@ int usernameAdd(char * username){
   
   fprintf(fp,"%s",str);
   fclose(fp);
+  free(str);
 }
 
 int main(){
   char* x= "brandon";
-  usernameAdd(x);}
+  usernameAdd(x);
+ 
+  usernameAdd(x);
+
+  usernameAdd(x);
+  numberLines(x);
+ 
+}
