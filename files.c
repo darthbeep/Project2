@@ -67,12 +67,12 @@ int numberLines(char * file){
    
   printf("%s",str);
   while (strsep(&str,"\n") != NULL){
-    printf("%s,%d",str,i);
+    /* printf("%s,%d",str,i); */
     i++;} 
   /* str = strsep(&str, "\n"); */
   /* printf("%s",str); */
   
-  free(str);
+   free(str); 
   fclose(fp);
   return i;
 }
@@ -88,7 +88,7 @@ int usernameNumber(char * username){
   rewind(fp);
   char *str = malloc(fsize + 1);
   fread(str, fsize, 1, fp);
-   printf("%s",str);
+   /* printf("%s",str); */
   //str holds the file
  
   
@@ -107,7 +107,7 @@ int usernameNumber(char * username){
 
   int i = 0;
    
-  printf("%s",str);
+  /* printf("%s",str); */
   while (strsep(&str,"\n") != NULL){
     /* printf("%s,%d",str,i); */
     i++;} 
@@ -130,22 +130,26 @@ int usernameAdd(char * username){
   FILE *fp;
   fp=fopen("username.txt", "a+");
   char * str;
-  strcpy(str, "100");
+
+  if (usernameNumber(username)>0){
+    return usernameNumber(username);}
+  strcpy(str, (char)numberLines("username.txt"));
   strcat(str, ",");
   strcat(str, username);
   strcat(str, "\n");
-
+  printf("%s",str);
   /* char * line = "1" + "," + username + "\n"; */
 
   
   fprintf(fp,"%s",str);
   fclose(fp);
   free(str);
+  return usernameNumber(username);
 }
 
 int main(){
   char* f = "username.txt";
-  char* x= "matt";
-  printf("%d",usernameNumber(x));
+  char* x= "mattyyy";
+  numberLines(f);
  
 }
