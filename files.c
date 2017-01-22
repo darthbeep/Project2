@@ -124,6 +124,7 @@ int usernameNumber(char * username){
 
 }
 
+
   
 /* (<#>,","<username>,"\n") */
 int usernameAdd(char * username){
@@ -147,9 +148,28 @@ int usernameAdd(char * username){
   return usernameNumber(username);
 }
 
+char * getQuestion(int n){
+  FILE *fp;
+  fp=fopen("questions.txt", "r");
+  fseek(fp, 0, SEEK_END);
+  long fsize = ftell(fp);
+  rewind(fp);
+  char *str = malloc(fsize + 1);
+  fread(str, fsize, 1, fp);
+
+  int i = 0;
+  while (i < n){
+    
+    if(strsep(&str,"\n") == NULL){
+      return NULL;}
+    i++;
+  }
+  str = strsep(&str,"\n");
+  return str;}
+
 int main(){
   char* f = "username.txt";
   char* x= "mattyyy";
-  numberLines(f);
+  printf("%s", getQuestion(100));
  
 }
