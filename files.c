@@ -52,10 +52,10 @@ int serverDetach(char* data){
 }
 
 
-
-int numberLines(char * username){
+//returns number of lines in files
+int numberLines(char * file){
   FILE *fp;
-  fp=fopen("username.txt", "r");
+  fp=fopen(file, "r");
   fseek(fp, 0, SEEK_END);
   long fsize = ftell(fp);
   rewind(fp);
@@ -79,8 +79,8 @@ int numberLines(char * username){
 
 
 	 
-
-int usernameCheck(char * username){
+//returns username number from username.txt if it exists. 0 otherwise.
+int usernameNumber(char * username){
   FILE *fp;
   fp=fopen("username.txt", "r");
   fseek(fp, 0, SEEK_END);
@@ -90,13 +90,38 @@ int usernameCheck(char * username){
   fread(str, fsize, 1, fp);
    printf("%s",str);
   //str holds the file
+ 
+  
+ str = strstr(str, username);
+  if (str == NULL) {
+    char *temp = str;
+    str = NULL;
+    return 0;
+    
+  }
+
+  char *temp = str;
+
+  *str = '\0';
+  str = str + strlen(username );
+
   int i = 0;
-  str = strsep(&str, "\n");
+   
   printf("%s",str);
+  while (strsep(&str,"\n") != NULL){
+    /* printf("%s,%d",str,i); */
+    i++;} 
+  
   /* str = strsep(&str, "\n"); */
   /* printf("%s",str); */
-  free(str);
+  /* free(str); */
   fclose(fp);
+  return numberLines("username.txt") - i;
+
+  
+
+  
+
 }
 
   
@@ -119,12 +144,8 @@ int usernameAdd(char * username){
 }
 
 int main(){
-  char* x= "brandon";
-  usernameAdd(x);
- 
-  usernameAdd(x);
-
-  usernameAdd(x);
-  numberLines(x);
+  char* f = "username.txt";
+  char* x= "matt";
+  printf("%d",usernameNumber(x));
  
 }
