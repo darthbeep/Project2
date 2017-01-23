@@ -40,14 +40,14 @@ int main( int argc, char *argv[] ) {
   if (f == 0) {
       while (1) {
           read(sd, buffer, sizeof(buffer));
-          if (strcmp(buffer, START) == 0) {
+          //if (strcmp(buffer, START) == 0) {
               int g = fork();
               if (g == 0) {
-                  sleep(10);
+                  sleep(20);
                   write(sd, KILL_ME, sizeof(KILL_ME));
                   exit(1);
-              }
-          }
+		  }
+	      //}
           printf("%s\n", buffer);
       }
   }

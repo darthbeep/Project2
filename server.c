@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -6,7 +7,7 @@
 #include <sys/ipc.h>
 #include <sys/shm.h>
 #include <time.h>
-
+#include "files.c"
 #include "networking.h"
 
 struct person {
@@ -37,40 +38,14 @@ int main() {
     }
     int * transfer = (int *) malloc(sizeof(int));
     *transfer = 0;
-    //memcpy(people, transfer, sizeof(transfer));
     printf("Setup went ok\n");
-    /*
-    int shmid2;
-    key_t key2;
-    key2 = KEY_NUM + 2;
-    shmid = shmget(key2, MESSAGE_BUFFER_SIZE, IPC_CREAT | 0644);
-    clients = shmat(shmid2, NULL, 0);
-    if (clients == (struct person *) -1) {
-        printf("%s\n", IMPROBBABLEERROR);
-    }
-    int * transfer2 = (struct person *) malloc(sizeof(struct person) * MAX_PERSON_SIZE);
-    *transfer2 = (struct person *) malloc(sizeof(struct person) * MAX_PERSON_SIZE);;
-    memcpy(clients, transfer2, sizeof(transfer2));
-    printf("%s\n", SUCCESS);*/
 
   int sd;
   int connection[NUMBER_PEOPLE];
 
   sd = server_setup();
-  //sd2 = server_setup();  //people = 0;
-  //printf("Main runs: %d\n", *end);
 
-  /*int g = fork(); //get it because g comes after f
-  if (g == 0) {
-        while (people < 2 ) {//number can be changed
-        }
-
-    }*/
   while (1) {
-      /*printf("Server: 3\n");
-    connection = server_connect( sd );
-    printf("Server: 4\n");
-    connection2 = server_connect( sd );*/
     int i = 0;
     for (; i < NUMBER_PEOPLE; i++) {
         connection[i] = server_connect(sd);
@@ -97,28 +72,6 @@ int main() {
 
 void dispatch(int connection[MAX_PERSON_SIZE]) {
     int orig = getpid();
-    /*for (int i = 0; i < MAX_PERSON_SIZE; i++) {
-        write(connection[i], ENTERUSERNAME, sizeof(ENTERUSERNAME));
-    }*/
-    /*int * transfer = (int *) malloc(sizeof(int));
-    *transfer = 0;
-    memcpy(end, transfer, sizeof(transfer));
-    int f = fork();
-    if (f == 0) {
-        sleep(10);
-        *transfer = 1;
-        memcpy(end, transfer, sizeof(transfer));
-        exit(0);
-    }*/
-
-
-    /*for (int i = 0; i < NUMBER_PEOPLE; i++) {
-        if (getpid() == orig) {
-            for (int j = 0; j < MAX_PERSON_SIZE/2; j++) {
-                conve
-            }
-        }
-    }*/
     //This is where you put in a clever pairing algorithm. Right now the argorithm for 4 people is hardcoded in
     int i = 0;
     for (; i < NUMBER_PEOPLE; i++) {
@@ -164,8 +117,19 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
 }
 
 void converse( int sd, int sd2 ) {
-    write(sd, START, sizeof(START));
-    write(sd2, START, sizeof(START));
+  int r = rand() % 50;
+  char stringer[100];
+  
+  sprintf(stringer, "Question: %s\n", getQuestion(r));
+
+  write(sd, stringer, strlen(stringer));
+  write(sd2, stringer, strlen(stringer));
+
+  write(sd, START, sizeof(START));
+  write(sd2, START, sizeof(START));
+
+  //  write(sd, stringer, strlen(stringer));
+  //  write(sd2, stringer, strlen(stringer));
     /*
         When the server recieves a message, it needs to know what type of message it is. Therefore, the first two charachtars of a recieved message represent a different code. Here are all of the used codes:
 
@@ -203,13 +167,6 @@ void converse( int sd, int sd2 ) {
               return;
           }
           write(sd, buffer2, sizeof(buffer2));
-          /*clock_t t2;
-          t2 = clock() -t;
-          printf("Time: %f\n", ((double)t2)/CLOCKS_PER_SEC );
-          if (((double)t2)/CLOCKS_PER_SEC > 60) {
-              printf("Your time is up. Please wait to talk to someone new\n");
-              return;
-          }*/
       }
 
   }

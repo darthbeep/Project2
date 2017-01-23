@@ -1,4 +1,7 @@
-all: server client
+all: server client files
+
+files: files.o
+	gcc -c -o files files.o 
 
 server: server.o networking.o
 	gcc -o server server.o networking.o

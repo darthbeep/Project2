@@ -41,6 +41,7 @@ int clientAccess(int shmid){
 
 int serverStartUp(){
   serverOpenMemory("usernames.txt");
+  return 0;
 }
   
 
@@ -49,6 +50,7 @@ int serverDetach(char* data){
     perror("shmdt");
     exit(1);
   }
+  return 0;
 }
 
 
@@ -166,10 +168,12 @@ char * getQuestion(int n){
   }
   str = strsep(&str,"\n");
   return str;}
-
+/*
 int main(){
   char* f = "username.txt";
   char* x= "mattyyy";
   printf("%s", getQuestion(100));
- 
 }
+*/ 
+
+
