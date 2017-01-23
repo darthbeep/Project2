@@ -21,6 +21,7 @@ void error_check( int i, char *s );
 
 int server_setup();
 int server_connect(int sd);
+//void sub_server(int sd, int sd2);
 
 int client_connect( char *host );
 
