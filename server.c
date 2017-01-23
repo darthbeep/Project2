@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <time.h>
 
 #include "networking.h"
 
@@ -14,8 +15,10 @@ struct person {
 };
 
 void process( char * s );
-void sub_server( int sd, int sd2 );
+void dispatch( int []);
+void converse( int sd, int sd2 );
 int * people;
+//int * end;
 char accepting = 0;
 int touched = 0;
 struct person * clients[MAX_PERSON_SIZE]; //= (struct person *) malloc(sizeof(struct person) * MAX_PERSON_SIZE);
@@ -28,13 +31,13 @@ int main() {
     key_t key;
     key = KEY_NUM;
     shmid = shmget(key, MESSAGE_BUFFER_SIZE, IPC_CREAT | 0644);
-    people = shmat(shmid, NULL, 0);
-    if (people == (int *) -1) {
+    end = shmat(shmid, NULL, 0);
+    if (end == (int *) -1) {
         printf("%s\n", IMPROBBABLEERROR);
     }
     int * transfer = (int *) malloc(sizeof(int));
     *transfer = 0;
-    memcpy(people, transfer, sizeof(transfer));
+    //memcpy(people, transfer, sizeof(transfer));
     printf("Setup went ok\n");
     /*
     int shmid2;
@@ -50,13 +53,12 @@ int main() {
     memcpy(clients, transfer2, sizeof(transfer2));
     printf("%s\n", SUCCESS);*/
 
-  int sd, sd2, connection, connection2;
+  int sd;
+  int connection[NUMBER_PEOPLE];
 
   sd = server_setup();
-  //sd2 = server_setup();
-  sd2 = sd;
-  //people = 0;
-  printf("Main runs: %d\n", *people);
+  //sd2 = server_setup();  //people = 0;
+  //printf("Main runs: %d\n", *end);
 
   /*int g = fork(); //get it because g comes after f
   if (g == 0) {
@@ -65,49 +67,149 @@ int main() {
 
     }*/
   while (1) {
-      printf("Server: 3\n");
+      /*printf("Server: 3\n");
     connection = server_connect( sd );
     printf("Server: 4\n");
-    connection2 = server_connect( sd );
-    printf("Server: 1\n");
+    connection2 = server_connect( sd );*/
+    for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+        connection[i] = server_connect(sd);
+    }
     int f = fork();
     if ( f == 0 ) {
-        printf("Server: 2\n");
       close(sd);
       //close(sd2);
-      sub_server( connection, connection2 );
+      dispatch( connection );
 
       exit(0);
     }
     else {
-      close( connection );
+      //close( connection );
+      for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+          close(connection[i]);
+      }
     }
 
   }
   return 0;
 }
 
+void dispatch(int connection[MAX_PERSON_SIZE]) {
+    int orig = getpid();
+    /*for (size_t i = 0; i < MAX_PERSON_SIZE; i++) {
+        write(connection[i], ENTERUSERNAME, sizeof(ENTERUSERNAME));
+    }*/
+    /*int * transfer = (int *) malloc(sizeof(int));
+    *transfer = 0;
+    memcpy(end, transfer, sizeof(transfer));
+    int f = fork();
+    if (f == 0) {
+        sleep(10);
+        *transfer = 1;
+        memcpy(end, transfer, sizeof(transfer));
+        exit(0);
+    }*/
 
-void sub_server( int sd, int sd2 ) {
+
+    /*for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+        if (getpid() == orig) {
+            for (size_t j = 0; j < MAX_PERSON_SIZE/2; j++) {
+                conve
+            }
+        }
+    }*/
+    //This is where you put in a clever pairing algorithm. Right now the argorithm for 4 people is hardcoded in
+    for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+        write(connection[i], SUCCESS, sizeof(SUCCESS));
+    }
+    if (getpid() == orig) {
+        int f = fork();
+    if (f == 0) {
+        converse(connection[0], connection[1]);
+    }
+    else {
+        converse(connection[2], connection[3]);
+    }
+    }
+
+    if (getpid() == orig) {
+        int g = fork();
+        if (g == 0) {
+            converse(connection[0], connection[2]);
+        }
+        else {
+            converse(connection[1], connection[3]);
+        }
+    }
+    if (getpid() == orig) {
+        int h = fork();
+        if (h == 0) {
+            converse(connection[0], connection[3]);
+        }
+        else {
+            converse(connection[1], connection[2]);
+        }
+    }
+    if (getpid() == orig) {
+        for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+            write(connection[i], ENDING, sizeof(ENDING));
+        }
+    }
+    while (1) {
+        /* code */
+    }
+}
+
+void converse( int sd, int sd2 ) {
+    write(sd, START, sizeof(START));
+    write(sd2, START, sizeof(START));
     /*
         When the server recieves a message, it needs to know what type of message it is. Therefore, the first two charachtars of a recieved message represent a different code. Here are all of the used codes:
 
         00: Username
     */
     printf("chatting now. Yay friends\n");
+    clock_t t;
+    t = clock();
   char buffer[MESSAGE_BUFFER_SIZE];
   char buffer2[MESSAGE_BUFFER_SIZE];
+  /*int g = fork();
+  if (g == 0) {
+      sleep(10);
+      printf("Ending\n");
+      exit(0);
+  }*/
+  printf("Not Ended\n");
   int f = fork();
   if (f == 0) {
       while (read( sd, buffer, sizeof(buffer) )) {
+
+
+          if (strcmp(buffer, KILL_ME) == 0) {
+              return;
+             printf("Hi\n");
+         }
           write(sd2, buffer, sizeof(buffer));
       }
   }
   else {
       while (read( sd2, buffer2, sizeof(buffer2) )) {
+
+
+          if (strcmp(buffer2, KILL_ME) == 0) {
+              return;
+          }
           write(sd, buffer2, sizeof(buffer2));
+          /*clock_t t2;
+          t2 = clock() -t;
+          printf("Time: %f\n", ((double)t2)/CLOCKS_PER_SEC );
+          if (((double)t2)/CLOCKS_PER_SEC > 60) {
+              printf("Your time is up. Please wait to talk to someone new\n");
+              return;
+          }*/
       }
+
   }
+exit(0);
  /* while (read( sd, buffer, sizeof(buffer) ) && read( sd2, buffer2, sizeof(buffer2) ) ) {
 
     if (buffer[0] == 48 && buffer[1] == 48 && ((buffer2[0] == 48 && buffer2[1] == 48)||(buffer[0] == 0 && buffer[1] == 0)))) {

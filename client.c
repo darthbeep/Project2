@@ -25,21 +25,32 @@ int main( int argc, char *argv[] ) {
   char usernameenterred = 0;
 
   //Make sure to read everything
-  int f = fork();
-  if (f == 0) {
-      while (1) {
-          read(sd, buffer, sizeof(buffer));
-          printf("%s\n", buffer);
-      }
-  }
+
   //Gather username
   //while (usernameenterred == 0) {
+  read(sd, buffer, sizeof(buffer));
        printf("Enter your username\n");
        char * submitusername = (char *) malloc(sizeof(char));
        fgets(buffer, sizeof(buffer), stdin);
        char *fix = strchr(buffer, '\n');
        *fix = 0;
        strcpy(username, buffer);
+
+       int f = fork();
+  if (f == 0) {
+      while (1) {
+          read(sd, buffer, sizeof(buffer));
+          if (strcmp(buffer, START) == 0) {
+              int g = fork();
+              if (g == 0) {
+                  sleep(10);
+                  write(sd, KILL_ME, sizeof(KILL_ME));
+                  exit(1);
+              }
+          }
+          printf("%s\n", buffer);
+      }
+  }
        //strcat(submitusername, "00"); //00 communicates that it is a test for usernames
        //strcat(submitusername, buffer);
        //write(sd, submitusername, sizeof(buffer));
