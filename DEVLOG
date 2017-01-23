@@ -6,3 +6,6 @@ Added file sharing functions for server and client.
 
 You can talk to each other. Groups are set to 4 people. All 4 must connect before the simulation starts.
 Still needed: integrate file stuff, come up with a better pairing algorithm, match people with the username they like, clean up code, make the first pairing start AFTER everyone has already chosen their names (not before)
+
+1/23 - Brandon Huang
+Added random questions to each cycle of dating rotation
