@@ -71,7 +71,8 @@ int main() {
     connection = server_connect( sd );
     printf("Server: 4\n");
     connection2 = server_connect( sd );*/
-    for (int i = 0; i < NUMBER_PEOPLE; i++) {
+    int i = 0;
+    for (; i < NUMBER_PEOPLE; i++) {
         connection[i] = server_connect(sd);
     }
     int f = fork();
@@ -84,7 +85,8 @@ int main() {
     }
     else {
       //close( connection );
-      for (int i = 0; i < NUMBER_PEOPLE; i++) {
+      int i = 0;
+      for (; i < NUMBER_PEOPLE; i++) {
           close(connection[i]);
       }
     }
@@ -118,7 +120,8 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
         }
     }*/
     //This is where you put in a clever pairing algorithm. Right now the argorithm for 4 people is hardcoded in
-    for (int i = 0; i < NUMBER_PEOPLE; i++) {
+    int i = 0;
+    for (; i < NUMBER_PEOPLE; i++) {
         write(connection[i], SUCCESS, sizeof(SUCCESS));
     }
     if (getpid() == orig) {
@@ -150,8 +153,9 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
         }
     }
     if (getpid() == orig) {
-        for (int i = 0; i < NUMBER_PEOPLE; i++) {
-            write(connection[i], ENDING, sizeof(ENDING));
+      int i = 0;
+      for (; i < NUMBER_PEOPLE; i++) {
+	  write(connection[i], ENDING, sizeof(ENDING));
         }
     }
     while (1) {
@@ -256,7 +260,8 @@ void process( char * s ) {
 int search_list_for_usernames(char * potential) {
     printf("%s: %d\n", potential, *people);
     int ret = -1;
-    for (int i = 0; i < *people; i++) {
+    int i = 0;
+    for (; i < *people; i++) {
         printf("Client name: %s\n", clients[i]->username);
         if (strcmp(clients[i]->username, potential) == 0) {
             printf("This wont work\n");
