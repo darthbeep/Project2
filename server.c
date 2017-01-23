@@ -71,7 +71,7 @@ int main() {
     connection = server_connect( sd );
     printf("Server: 4\n");
     connection2 = server_connect( sd );*/
-    for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+    for (int i = 0; i < NUMBER_PEOPLE; i++) {
         connection[i] = server_connect(sd);
     }
     int f = fork();
@@ -84,7 +84,7 @@ int main() {
     }
     else {
       //close( connection );
-      for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+      for (int i = 0; i < NUMBER_PEOPLE; i++) {
           close(connection[i]);
       }
     }
@@ -95,7 +95,7 @@ int main() {
 
 void dispatch(int connection[MAX_PERSON_SIZE]) {
     int orig = getpid();
-    /*for (size_t i = 0; i < MAX_PERSON_SIZE; i++) {
+    /*for (int i = 0; i < MAX_PERSON_SIZE; i++) {
         write(connection[i], ENTERUSERNAME, sizeof(ENTERUSERNAME));
     }*/
     /*int * transfer = (int *) malloc(sizeof(int));
@@ -110,15 +110,15 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
     }*/
 
 
-    /*for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+    /*for (int i = 0; i < NUMBER_PEOPLE; i++) {
         if (getpid() == orig) {
-            for (size_t j = 0; j < MAX_PERSON_SIZE/2; j++) {
+            for (int j = 0; j < MAX_PERSON_SIZE/2; j++) {
                 conve
             }
         }
     }*/
     //This is where you put in a clever pairing algorithm. Right now the argorithm for 4 people is hardcoded in
-    for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+    for (int i = 0; i < NUMBER_PEOPLE; i++) {
         write(connection[i], SUCCESS, sizeof(SUCCESS));
     }
     if (getpid() == orig) {
@@ -150,7 +150,7 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
         }
     }
     if (getpid() == orig) {
-        for (size_t i = 0; i < NUMBER_PEOPLE; i++) {
+        for (int i = 0; i < NUMBER_PEOPLE; i++) {
             write(connection[i], ENDING, sizeof(ENDING));
         }
     }
@@ -256,7 +256,7 @@ void process( char * s ) {
 int search_list_for_usernames(char * potential) {
     printf("%s: %d\n", potential, *people);
     int ret = -1;
-    for (size_t i = 0; i < *people; i++) {
+    for (int i = 0; i < *people; i++) {
         printf("Client name: %s\n", clients[i]->username);
         if (strcmp(clients[i]->username, potential) == 0) {
             printf("This wont work\n");
