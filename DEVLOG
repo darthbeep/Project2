@@ -3,3 +3,6 @@ I built the start of the project, based on DW's networking code. So far, clients
 The way usernames are transfered is (supposed to be) the client prompts and recieves a username. It then adds 00 to the front of the username and sends that to the server. The server detects that the message it has recieved starts with 00 and tries to see if the username has already been taken, by looking at the list of previous usernames. If the username is free, it tells the client it has a good username and the client is free to send messages (in this case, messages are just replied to with the message slightly altered). If the username is not good, the client is once again asked for a username.
 
 Added file sharing functions for server and client.
+
+You can talk to each other. Groups are set to 4 people. All 4 must connect before the simulation starts.
+Still needed: integrate file stuff, come up with a better pairing algorithm, match people with the username they like, clean up code, make the first pairing start AFTER everyone has already chosen their names (not before)
