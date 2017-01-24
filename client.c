@@ -52,9 +52,8 @@ int main( int argc, char *argv[] ) {
       }
   }
 
-printf("Username: %s\n", username);
+//printf("Username: %s\n", username);
   while (1) {
-    //printf("enter message: ");
     fgets( buffer, sizeof(buffer), stdin );
     char *p = strchr(buffer, '\n');
     *p = 0;
@@ -64,9 +63,7 @@ printf("Username: %s\n", username);
     strcat(send, buffer);
 
     write( sd, send, sizeof(send) );
-    //read( sd, buffer, sizeof(buffer) );
-    printf( "received: %s\n", buffer );
-   
+
   }
 
   return 0;

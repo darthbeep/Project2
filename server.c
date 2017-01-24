@@ -52,13 +52,11 @@ int main() {
     int f = fork();
     if ( f == 0 ) {
       close(sd);
-      //close(sd2);
       dispatch( connection );
 
       exit(0);
     }
     else {
-      //close( connection );
       int i = 0;
       for (; i < NUMBER_PEOPLE; i++) {
           close(connection[i]);
@@ -111,14 +109,13 @@ void dispatch(int connection[MAX_PERSON_SIZE]) {
         }
     }
     while (1) {
-        /* code */
     }
 }
 
 void converse( int sd, int sd2 ) {
   int r = rand() % 50;
   char stringer[100];
-  
+
   sprintf(stringer, "Question: %s\n", getQuestion(r));
 
   write(sd, stringer, strlen(stringer));
@@ -127,18 +124,8 @@ void converse( int sd, int sd2 ) {
   write(sd, START, sizeof(START));
   write(sd2, START, sizeof(START));
 
-    /*
-        When the server recieves a message, it needs to know what type of message it is. Therefore, the first two charachtars of a recieved message represent a different code. Here are all of the used codes:
-
-        00: Username
-    */
-    printf("chatting now. Yay friends\n");
-    clock_t t;
-    t = clock();
   char buffer[MESSAGE_BUFFER_SIZE];
   char buffer2[MESSAGE_BUFFER_SIZE];
-
-  printf("Not Ended\n");
   int f = fork();
   if (f == 0) {
       while (read( sd, buffer, sizeof(buffer) )) {
@@ -163,52 +150,4 @@ void converse( int sd, int sd2 ) {
 
   }
 exit(0);
- /* while (read( sd, buffer, sizeof(buffer) ) && read( sd2, buffer2, sizeof(buffer2) ) ) {
-
-    if (buffer[0] == 48 && buffer[1] == 48 && ((buffer2[0] == 48 && buffer2[1] == 48)||(buffer[0] == 0 && buffer[1] == 0)))) {
-        //This can never happen. Don't worry about it.
-        printf("%s\n", IMPOSSIBLEERROR);
-    }
-    //Usernames
-    else if (buffer[0] == 48 && buffer[1] == 48 && ((buffer2[0] == 48 && buffer2[1] == 48)||(buffer[0] == 0 && buffer[1] == 0))) { //So apparently the char for 0 is 48. That took me way too long to figure out.
-        printf("People: %d\n", *people);
-        if (1/) {
-            printf("Approved\n");
-
-            //clients[*people]->username = buffer + 2;
-            accepting = 0;
-            write(sd, GOODANSWER, sizeof(GOODANSWER));
-            int * transfer = (int *) malloc(sizeof(int));
-            *transfer = *people + 1;
-            memcpy(people, transfer, sizeof(transfer));
-            printf("People after: %d\n", *people);
-        }
-        else {
-            printf("Not Approved\n");
-            write(sd, BADANSWER, sizeof(BADANSWER));
-        }
-        //printf("Got here as well\n");
-    }
-  }*/
-
-}
-void process( char * s ) {
-  while ( *s ) {
-    *s = (*s - 'a' + 13) % 26 + 'a';
-    s++;
-  }
-}
-int search_list_for_usernames(char * potential) {
-    printf("%s: %d\n", potential, *people);
-    int ret = -1;
-    int i = 0;
-    for (; i < *people; i++) {
-        printf("Client name: %s\n", clients[i]->username);
-        if (strcmp(clients[i]->username, potential) == 0) {
-            printf("This wont work\n");
-            ret = i;
-        }
-    }
-    printf("test\n");
-    return ret;
 }
