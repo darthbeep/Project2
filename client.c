@@ -65,8 +65,8 @@ printf("Username: %s\n", username);
 
     write( sd, send, sizeof(send) );
     //read( sd, buffer, sizeof(buffer) );
-    //printf( "received: %s\n", buffer );
-
+    printf( "received: %s\n", buffer );
+   
   }
 
   return 0;
