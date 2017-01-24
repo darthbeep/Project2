@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -128,8 +127,6 @@ void converse( int sd, int sd2 ) {
   write(sd, START, sizeof(START));
   write(sd2, START, sizeof(START));
 
-  //  write(sd, stringer, strlen(stringer));
-  //  write(sd2, stringer, strlen(stringer));
     /*
         When the server recieves a message, it needs to know what type of message it is. Therefore, the first two charachtars of a recieved message represent a different code. Here are all of the used codes:
 
@@ -140,12 +137,7 @@ void converse( int sd, int sd2 ) {
     t = clock();
   char buffer[MESSAGE_BUFFER_SIZE];
   char buffer2[MESSAGE_BUFFER_SIZE];
-  /*int g = fork();
-  if (g == 0) {
-      sleep(10);
-      printf("Ending\n");
-      exit(0);
-  }*/
+
   printf("Not Ended\n");
   int f = fork();
   if (f == 0) {
@@ -197,18 +189,10 @@ exit(0);
         }
         //printf("Got here as well\n");
     }
-    else {
-        //printf("This should not be happening. Buffer[0]: %d, Buffer[1]: %d, truth: %d\n", buffer[0], buffer[1], buffer[0] == 0 && buffer[1] == 0);
-        printf("[SERVER %d] received: %s\n", getpid(), buffer );
-    process( buffer );
-    write( sd, buffer, sizeof(buffer));
-}
-
   }*/
 
 }
 void process( char * s ) {
-
   while ( *s ) {
     *s = (*s - 'a' + 13) % 26 + 'a';
     s++;

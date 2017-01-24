@@ -27,7 +27,7 @@ int main( int argc, char *argv[] ) {
   //Make sure to read everything
 
   //Gather username
-  //while (usernameenterred == 0) {
+
   read(sd, buffer, sizeof(buffer));
        printf("Enter your username\n");
        char * submitusername = (char *) malloc(sizeof(char));
@@ -51,16 +51,7 @@ int main( int argc, char *argv[] ) {
           printf("%s\n", buffer);
       }
   }
-       //strcat(submitusername, "00"); //00 communicates that it is a test for usernames
-       //strcat(submitusername, buffer);
-       //write(sd, submitusername, sizeof(buffer));
-       /*read(sd, buffer, sizeof(buffer));
-       printf("Buffer: %s\n", buffer);
-       if (strcmp(buffer, GOODANSWER) == 0) {
-           usernameenterred = 1;
-           printf("You may proceed\n");
-       }*/
-  //}
+
 printf("Username: %s\n", username);
   while (1) {
     //printf("enter message: ");
@@ -75,6 +66,7 @@ printf("Username: %s\n", username);
     write( sd, send, sizeof(send) );
     //read( sd, buffer, sizeof(buffer) );
     //printf( "received: %s\n", buffer );
+
   }
 
   return 0;
