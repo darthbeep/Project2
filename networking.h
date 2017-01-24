@@ -19,7 +19,7 @@
 #define FAILURE "If you spent as much time actually coding as writing these messages, your code might actually be working."
 #define KILL_ME "Am I talking about the code or real life?"
 #define START "You have just been paired. Time to meet your partner!"
-#define ENDING "The simulation is doen. Please name your favorite person."
+#define ENDING "The simulation is done. Please name your favorite person."
 
 void error_check( int i, char *s );
 
